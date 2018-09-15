@@ -1,6 +1,6 @@
 // @flow
 
-const BASE_URL = 'http://ip-api.com';
+const BASE_URL = 'http://ip-api.com/json';
 
 export const getUrl = (...params) => [BASE_URL, ...params].join('/');
 

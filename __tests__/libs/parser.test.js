@@ -1,6 +1,6 @@
 // @flow
 
-import getParser from '../src/lib/get-geo/parser';
+import getParser from '../../src/lib/get-geo/parser';
 
 const json = {
     as: 'AS25513 OJS Moscow city telephone network',
@@ -21,5 +21,5 @@ const json = {
 
 test('Test getParser', () => {
     const expected = { city: 'Moscow', country: 'Russia' };
-    expect(getParser.json(json)).toEqual(expected);
+    expect(getParser(json)).toEqual(expected);
 });

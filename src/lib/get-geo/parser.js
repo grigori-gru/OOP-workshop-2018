@@ -1,5 +1,3 @@
 // @flow
 
-export default {
-    json: ({ city, country }) => ({ city, country }),
-};
+export default ({ city, country }) => ({ city, country });

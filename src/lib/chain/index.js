@@ -1,10 +1,10 @@
 // @flow
 
+import { promises } from 'fs';
 import { makePlural, getMiddle } from '../utils';
-import getFiles from './get-files';
 
-export default async (dirName: string) => {
-    const files = await getFiles(dirName);
+export default async (dirName: string, fs = promises) => {
+    const files = await fs.readdir(dirName);
     const sortedFiles = files
         .filter(fileName => fileName.slice(0, 1) !== '.')
         .sort();
