@@ -1,6 +1,6 @@
 // @flow
 
-import getParser from '../src/lib/parser';
+import getParser from '../src/lib/get-geo/parser';
 
 const json = {
     as: 'AS25513 OJS Moscow city telephone network',

@@ -1,5 +1,5 @@
 import nock from 'nock';
-import getRequest from '../src/lib/request';
+import getRequest from '../src/lib/get-geo/request';
 
 describe('Test requests', () => {
     const url = 'http://example';

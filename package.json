@@ -37,11 +37,13 @@
   },
   "homepage": "https://github.com/grigori-gru/OOP-workshop-2018#readme",
   "dependencies": {
+    "sinon": "^6.3.3",
     "debug": "^4.0.1",
     "axios": "^0.18.0",
     "gulp": "^4.0.0"
   },
   "devDependencies": {
+    "proxyquire": "^2.1.0",
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.1",
     "@babel/node": "^7.0.0",
