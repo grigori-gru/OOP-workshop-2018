@@ -4,7 +4,8 @@
   "description": "Training repo for workshop 14.09.2018",
   "main": "dist/index.js",
   "bin": {
-    "geo-by-ip": "bin/geo-by-ip.js"
+    "geo-by-ip": "bin/geo-by-ip.js",
+    "get-weather": "bin/weather.js"
   },
   "engines": {
     "node": ">=8"
@@ -37,10 +38,11 @@
   },
   "homepage": "https://github.com/grigori-gru/OOP-workshop-2018#readme",
   "dependencies": {
-    "sinon": "^6.3.3",
-    "debug": "^4.0.1",
     "axios": "^0.18.0",
-    "gulp": "^4.0.0"
+    "commander": "^2.18.0",
+    "debug": "^4.0.1",
+    "gulp": "^4.0.0",
+    "sinon": "^6.3.3"
   },
   "devDependencies": {
     "proxyquire": "^2.1.0",

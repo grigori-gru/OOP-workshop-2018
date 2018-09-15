@@ -2,10 +2,10 @@ import { getUrl, getMiddle, makePlural } from '../../src/lib/utils';
 
 test('Test getUrl', () => {
     const ip = '79.139.239.80';
+    const baseUrl = 'http://ip-api.com/json';
+    const expected = `${baseUrl}/${ip}`;
 
-    const expected = `http://ip-api.com/json/${ip}`;
-
-    expect(getUrl(ip)).toEqual(expected);
+    expect(getUrl(baseUrl, ip)).toEqual(expected);
 });
 
 describe('Test getMiddle', () => {
