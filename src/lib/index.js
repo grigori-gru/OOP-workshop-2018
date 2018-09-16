@@ -1,7 +1,7 @@
 // @flow
 
 import chain from './chain';
-import getGeo from './get-geo';
-import * as weather from './weather';
+import Location from './get-geo';
+import Weather from './weather';
 
-export { getGeo, chain, weather };
+export { Location, chain, Weather };

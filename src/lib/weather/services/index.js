@@ -1,4 +1,4 @@
-import serv1 from './serv1';
+import metaweather from './metaweather';
 import serv2 from './serv2';
 
-export default { serv1, serv2 };
+export default { metaweather, serv2 };

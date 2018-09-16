@@ -1,5 +1,5 @@
 import { stub } from 'sinon';
-import { getGeo } from '../src/lib';
+import { Location } from '../src/lib';
 
 describe('Test get-geo', () => {
     const getStub = stub();
@@ -32,8 +32,9 @@ describe('Test get-geo', () => {
     };
 
     it('Expect get-geo returns {country, city}', async () => {
+        const location = new Location(requestStub);
         getStub.withArgs(url).resolves({ data });
-        const res = await getGeo(ip, requestStub);
+        const res = await location.getGeo(ip, requestStub);
         expect(res).toEqual({ city, country });
     });
 });

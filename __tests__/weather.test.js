@@ -1,5 +1,5 @@
 import { stub } from 'sinon';
-import { getWeather, useNewService } from '../src/lib/weather';
+import { Weather } from '../src/lib';
 
 const city = 'London';
 const getStub = stub();
@@ -9,11 +9,11 @@ const requestStub = {
 const weather = 'Heavy Cloud';
 const temp = 19.85;
 
-const serv1Data = { weather, temp };
+const metaweatherData = { weather, temp };
 
 describe('Test weather', () => {
     const woeid = 44418;
-    const service = 'serv1';
+    // const service = 'metaweather';
     const baseUrl = 'https://www.metaweather.com/api/location';
     const urlForLocation = `${baseUrl}/search`;
     const urlForweather = `${baseUrl}/${woeid}`;
@@ -46,53 +46,32 @@ describe('Test weather', () => {
                 visibility: 10.64657400779448,
                 predictability: 71,
             },
-            {
-                id: 5349840510779392,
-                weather_state_name: 'Heavy Cloud',
-                weather_state_abbr: 'hc',
-                wind_direction_compass: 'SW',
-                created: '2018-09-15T14:56:02.245254Z',
-                applicable_date: '2018-09-16',
-                min_temp: 13.932500000000001,
-                max_temp: 22.682499999999997,
-                the_temp: 21.045,
-                wind_speed: 10.014363112870834,
-                wind_direction: 216.49331971588634,
-                air_pressure: 1020.5450000000001,
-                humidity: 58,
-                visibility: 12.99784259922055,
-                predictability: 71,
-            },
         ],
     };
 
-    it('Expect get-geo returns {country, city}', async () => {
+    it('Expect get-weather returns {country, city}', async () => {
+        const w = new Weather(undefined, undefined, requestStub);
         getStub
             .withArgs(urlForLocation, { params: { query: city } }).resolves({ data: cityData })
             .withArgs(urlForweather).resolves({ data });
 
-        const res = await getWeather(city, service, requestStub);
-        expect(res).toEqual(serv1Data);
-    });
-});
-
-describe('Test useNewService', () => {
-    const serviceName = 'service';
-    const serviceStub = stub();
-    const data = 'OK';
-    const weatherService = useNewService(serviceName, serviceStub);
-
-    it('Expect useNewService use new service', async () => {
-        serviceStub.withArgs(city, requestStub).resolves(data);
-
-        const res = await weatherService.getWeather(city, undefined, requestStub);
-        expect(res).toEqual(data);
+        const res = await w.getWeather(city);
+        expect(res).toEqual(metaweatherData);
     });
 
-    it('Expect useNewService return data for serv1 if it pass', async () => {
-        serviceStub.withArgs(city, requestStub).resolves(data);
+    it('Expect get-weather can be added with new services', async () => {
+        const testservData = 'some data';
+        const testserv1 = stub();
+        testserv1.withArgs(city, requestStub).resolves(testservData);
+        const services = [
+            { testserv1 },
+            { testserv2: 'testserv2' },
+            { testserv3: 'testserv3' },
+        ];
+        const w = new Weather('testserv1', services, requestStub);
 
-        const res = await weatherService.getWeather(city, 'serv1', requestStub);
-        expect(res).toEqual(serv1Data);
+        const res = await w.getWeather(city);
+        expect(testserv1.calledOnce).toBe(true);
+        expect(res).toEqual(testservData);
     });
 });

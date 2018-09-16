@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
-import { chain, getGeo } from '../lib';
+import { chain, Location } from '../lib';
 
+const location = new Location();
 const ip = process.argv[process.argv.length - 1];
 
-getGeo(ip)
+location.getGeo(ip)
     .then(({ city, country }) => console.log(`City is ${city}. Country is ${country}.`));
 
 console.log(__dirname);

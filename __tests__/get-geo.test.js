@@ -1,5 +1,6 @@
 import nock from 'nock';
-import { getGeo } from '../src/lib';
+import { Location } from '../src/lib';
+
 
 describe('Test get-geo', () => {
     const type = 'json';
@@ -35,7 +36,8 @@ describe('Test get-geo', () => {
     });
 
     it('Expect get-geo returns {country, city}', async () => {
-        const res = await getGeo(ip);
+        const location = new Location();
+        const res = await location.getGeo(ip);
         expect(res).toEqual({ city, country });
     });
 });
