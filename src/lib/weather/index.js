@@ -1,11 +1,13 @@
+import debug from 'debug';
 import axios from 'axios';
-import getServiceUrl from './services';
-import getParseData from './parser';
+import services from './services';
 
+const log = debug('weather');
 
-export default async (service, city, request = axios) => {
-    const url = await getServiceUrl(request)[service](city);
-    const { data } = await request.get(url);
+export default async (city, service, request = axios) => {
+    log('Data to user', city, service);
+    const data = await services[service](city, request);
+    log('Data to user', data);
 
-    return getParseData[service](data);
+    return data;
 };

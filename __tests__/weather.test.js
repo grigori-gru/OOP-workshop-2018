@@ -11,7 +11,7 @@ describe('Test get-geo', () => {
     const city = 'London';
     const baseUrl = 'https://www.metaweather.com/api/location';
     const urlForLocation = `${baseUrl}/search`;
-    const urlForWheather = `${baseUrl}/${woeid}`;
+    const urlForweather = `${baseUrl}/${woeid}`;
     const weather = 'Heavy Cloud';
     const temp = 19.85;
 
@@ -66,9 +66,9 @@ describe('Test get-geo', () => {
     it('Expect get-geo returns {country, city}', async () => {
         getStub
             .withArgs(urlForLocation, { params: { query: city } }).resolves({ data: cityData })
-            .withArgs(urlForWheather).resolves({ data });
+            .withArgs(urlForweather).resolves({ data });
 
-        const res = await getWeather(service, city, requestStub);
+        const res = await getWeather(city, service, requestStub);
         expect(res).toEqual({ weather, temp });
     });
 });
