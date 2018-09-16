@@ -1,5 +1,5 @@
 // @flow
 
-import getGeoData from './lib';
+import services from './lib';
 
-export default getGeoData;
+export default services;
