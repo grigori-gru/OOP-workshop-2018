@@ -7,5 +7,16 @@ Training repo for workshop 14.09.2018
 
 ## Weather service
 
-run command in root of project
+### run command in root of project
 - `npx babel-node -- src/bin/get-weather.js --service <serv1_or_serv2> <city_name>`
+
+### add new service
+```
+    const weatherService = weather.useNewService(serviceName, service);
+
+    // Now your serviceName is default
+    const weatherData = weatherService.getWeather(city);
+
+    // To use another just add as param
+    const weatherData = weatherService.getWeather(city, someOtherServiceName);
+```

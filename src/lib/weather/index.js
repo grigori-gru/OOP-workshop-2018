@@ -1,13 +1,9 @@
-import debug from 'debug';
-import axios from 'axios';
-import services from './services';
+import getWeatherData from './get-weather';
+import defaultServices from './services';
 
-const log = debug('weather');
+export const useNewService = (serviceName, service) => ({
+    getWeather: getWeatherData({ ...defaultServices, [serviceName]: service }, serviceName),
+    useNewService,
+});
 
-export default async (city, service, request = axios) => {
-    log('Data to user', city, service);
-    const data = await services[service](city, request);
-    log('Data to user', data);
-
-    return data;
-};
+export const getWeather = getWeatherData(defaultServices);

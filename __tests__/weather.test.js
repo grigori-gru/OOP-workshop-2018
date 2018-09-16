@@ -1,19 +1,22 @@
 import { stub } from 'sinon';
-import { getWeather } from '../src/lib';
+import { getWeather, useNewService } from '../src/lib/weather';
 
-describe('Test get-geo', () => {
-    const getStub = stub();
-    const requestStub = {
-        get: getStub,
-    };
+const city = 'London';
+const getStub = stub();
+const requestStub = {
+    get: getStub,
+};
+const weather = 'Heavy Cloud';
+const temp = 19.85;
+
+const serv1Data = { weather, temp };
+
+describe('Test weather', () => {
     const woeid = 44418;
     const service = 'serv1';
-    const city = 'London';
     const baseUrl = 'https://www.metaweather.com/api/location';
     const urlForLocation = `${baseUrl}/search`;
     const urlForweather = `${baseUrl}/${woeid}`;
-    const weather = 'Heavy Cloud';
-    const temp = 19.85;
 
     const cityData = [
         {
@@ -69,6 +72,27 @@ describe('Test get-geo', () => {
             .withArgs(urlForweather).resolves({ data });
 
         const res = await getWeather(city, service, requestStub);
-        expect(res).toEqual({ weather, temp });
+        expect(res).toEqual(serv1Data);
+    });
+});
+
+describe('Test useNewService', () => {
+    const serviceName = 'service';
+    const serviceStub = stub();
+    const data = 'OK';
+    const weatherService = useNewService(serviceName, serviceStub);
+
+    it('Expect useNewService use new service', async () => {
+        serviceStub.withArgs(city, requestStub).resolves(data);
+
+        const res = await weatherService.getWeather(city, undefined, requestStub);
+        expect(res).toEqual(data);
+    });
+
+    it('Expect useNewService return data for serv1 if it pass', async () => {
+        serviceStub.withArgs(city, requestStub).resolves(data);
+
+        const res = await weatherService.getWeather(city, 'serv1', requestStub);
+        expect(res).toEqual(serv1Data);
     });
 });
