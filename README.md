@@ -5,6 +5,10 @@ Training repo for workshop 14.09.2018
 
 # How to use
 
+## Geo location service
+
+- `npx babel-node -- src/bin/geo-by-ip.js <ip_address>`
+
 ## Weather service
 
 ### run command in root of project

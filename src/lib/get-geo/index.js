@@ -10,7 +10,7 @@ const log = debug('request');
 const BASE_URL = 'http://ip-api.com/json';
 
 export default class {
-    constructor(request = axios) {
+    constructor(request: any = axios) {
         this.request = request;
     }
 

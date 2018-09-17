@@ -3,7 +3,7 @@
 import { promises } from 'fs';
 import { makePlural, getMiddle } from '../utils';
 
-export default async (dirName: string, fs = promises) => {
+export default async (dirName: string, fs: Object = promises) => {
     const files = await fs.readdir(dirName);
     const sortedFiles = files
         .filter(fileName => fileName.slice(0, 1) !== '.')

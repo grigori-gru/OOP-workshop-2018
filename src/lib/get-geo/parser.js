@@ -1,3 +1,8 @@
 // @flow
 
-export default ({ city, country }) => ({ city, country });
+type Data = {
+    city: string,
+    country: string,
+};
+
+export default ({ city, country }: Data) => ({ city, country });

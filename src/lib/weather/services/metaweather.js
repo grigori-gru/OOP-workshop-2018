@@ -6,15 +6,21 @@ import { getUrl } from '../../utils';
 const log = debug('weather');
 const BASE_URL = 'https://www.metaweather.com/api/location';
 
-export default async (city: string, request) => {
-    const { data } = await request.get(getUrl(BASE_URL, 'search'), { params: { query: city } });
-    log('data', data);
+export default class {
+    constructor(request: any) {
+        this.request = request;
+    }
 
-    const [{ woeid }] = data;
+    async getWeather(city: string) {
+        const { data } = await this.request.get(getUrl(BASE_URL, 'search'), { params: { query: city } });
+        log('data', data);
 
-    const { data: weatherData } = await request.get(getUrl(BASE_URL, woeid));
+        const [{ woeid }] = data;
 
-    const [{ weather_state_name: weather, the_temp: temp }] = weatherData.consolidated_weather;
+        const { data: weatherData } = await this.request.get(getUrl(BASE_URL, woeid));
 
-    return { weather, temp };
-};
+        const [{ weather_state_name: weather, the_temp: temp }] = weatherData.consolidated_weather;
+
+        return { weather, temp };
+    }
+}

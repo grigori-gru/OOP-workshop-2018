@@ -3,20 +3,25 @@
 import axios from 'axios';
 import services from './services';
 
+type Options = {
+    serviceName: ?string,
+    newServices: ?Array<Object>,
+    request: ?any,
+};
+
 const DEFAULT_SERVICE_NAME = 'metaweather';
 
 export default class {
-    constructor(
-        serviceName: string = DEFAULT_SERVICE_NAME,
-        newServices: Array = [],
-        request = axios,
-    ) {
-        this.defaultServiceName = serviceName;
-        this.services = newServices.reduce((acc, val) => ({ ...acc, ...val }), services);
-        this.request = request;
+    constructor({ serviceName, newServices, request }: Options) {
+        this.defaultServiceName = serviceName || DEFAULT_SERVICE_NAME;
+        this.services = (newServices || [])
+            .reduce((acc: object, val: object) => ({ ...acc, ...val }), services);
+        this.request = request || axios;
     }
 
-    getWeather(city: string, serviceName: string | undefined = this.defaultServiceName) {
-        return this.services[serviceName](city, this.request);
+    getWeather(city: string, serviceName: ?string = this.defaultServiceName) {
+        const service = new this.services[serviceName](this.request);
+
+        return service.getWeather(city);
     }
 }
