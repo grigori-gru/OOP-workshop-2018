@@ -11,8 +11,6 @@ type Options = {
 
 const DEFAULT_SERVICE_NAME = 'metaweather';
 
-const initClass = (req: any) => ([serviceName, Service]) => [serviceName, new Service(req)];
-
 export default class {
     constructor({
         serviceName = DEFAULT_SERVICE_NAME,
@@ -21,12 +19,27 @@ export default class {
     }: Options) {
         this.defaultServiceName = serviceName;
         this.request = request;
-        this.services = new Map([...services, ...newServices].map(initClass(this.request)));
+        this.services = new Map([...services, ...newServices]);
+        this.initedServices = new Map();
+    }
+
+    memo(name: string) {
+        if (this.initedServices.has(name)) {
+            return this.cash.get(name);
+        }
+        const Service = this.services.get(name);
+        const service = new Service(this.request);
+        this.initedServices.set(name, service);
+
+        return service;
     }
 
     getWeather(city: string, serviceName: ?string = this.defaultServiceName) {
-        const service = this.services.get(serviceName);
+        if (this.services.get(serviceName)) {
+            return this.memo(serviceName).getWeather(city);
+        }
+        console.warn(`Unknown weather service: "${serviceName}". Using default service.`);
 
-        return service.getWeather(city);
+        return this.memo(DEFAULT_SERVICE_NAME).getWeather(city);
     }
 }

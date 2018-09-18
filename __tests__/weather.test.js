@@ -78,4 +78,11 @@ describe('Test weather', () => {
         const res = await w.getWeather(city);
         expect(res).toEqual(metaweatherData);
     });
+
+    it('Expect get-weather return default service is not found', async () => {
+        const w = new Weather({ request: requestStub });
+
+        const res = await w.getWeather(city, 'fakeServiceName');
+        expect(res).toEqual(metaweatherData);
+    });
 });
