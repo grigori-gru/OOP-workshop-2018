@@ -1,1 +1,1 @@
-export default city => city;
+export default class {}

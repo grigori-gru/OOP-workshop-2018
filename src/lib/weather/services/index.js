@@ -1,4 +1,7 @@
-import metaweather from './metaweather';
-import serv2 from './serv2';
+import Metaweather from './metaweather';
+import Serv2 from './serv2';
 
-export default { metaweather, serv2 };
+export default new Map([
+    ['metaweather', Metaweather],
+    ['serv2', Serv2],
+]);
