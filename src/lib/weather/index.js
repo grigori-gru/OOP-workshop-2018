@@ -12,14 +12,14 @@ type Options = {
 
 const DEFAULT_SERVICE_NAME = 'metaweather';
 
-const initClass = (services, request) => (serviceName) => {
+const initClass = (services: Map<string, Class>, request: Object) => (serviceName) => {
     console.log(services);
     const Service = services.get(serviceName);
     if (Service) {
         return new Service(request);
     }
     console.warn(`Unknown weather service: "${serviceName}". Using default service.`);
-    const DefaultService = services.get(DEFAULT_SERVICE_NAME);
+    const DefaultService: Class = services.get(DEFAULT_SERVICE_NAME);
 
     return new DefaultService(request);
 };
