@@ -1,7 +1,8 @@
 // @flow
 
 import axios from 'axios';
-import services from './services';
+import memo from 'fast-memoize';
+import defaultServices from './services';
 
 type Options = {
     serviceName: string,
@@ -11,6 +12,19 @@ type Options = {
 
 const DEFAULT_SERVICE_NAME = 'metaweather';
 
+const initClass = (services, request) => (serviceName) => {
+    console.log(services);
+    const Service = services.get(serviceName);
+    if (Service) {
+        return new Service(request);
+    }
+    console.warn(`Unknown weather service: "${serviceName}". Using default service.`);
+    const DefaultService = services.get(DEFAULT_SERVICE_NAME);
+
+    return new DefaultService(request);
+};
+
+
 export default class {
     constructor({
         serviceName = DEFAULT_SERVICE_NAME,
@@ -19,27 +33,13 @@ export default class {
     }: Options) {
         this.defaultServiceName = serviceName;
         this.request = request;
-        this.services = new Map([...services, ...newServices]);
-        this.initedServices = new Map();
-    }
-
-    memo(name: string) {
-        if (this.initedServices.has(name)) {
-            return this.cash.get(name);
-        }
-        const Service = this.services.get(name);
-        const service = new Service(this.request);
-        this.initedServices.set(name, service);
-
-        return service;
+        this.services = new Map([...defaultServices, ...newServices]);
+        this.memo = memo(initClass(this.services, this.request));
     }
 
     getWeather(city: string, serviceName: ?string = this.defaultServiceName) {
-        if (this.services.get(serviceName)) {
-            return this.memo(serviceName).getWeather(city);
-        }
-        console.warn(`Unknown weather service: "${serviceName}". Using default service.`);
+        const service = this.memo(serviceName);
 
-        return this.memo(DEFAULT_SERVICE_NAME).getWeather(city);
+        return service.getWeather(city);
     }
 }
